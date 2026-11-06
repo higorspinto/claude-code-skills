@@ -1,0 +1,102 @@
+{
+  "skill_name": "context-session",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to start tracking my work on a new feature. Start a session called 'payment-flow'. The goal is: add Stripe payment integration to our e-commerce app. The initial plan is: 1) Set up Stripe account and get API keys, 2) Install Stripe SDK, 3) Build payment form UI, 4) Handle Stripe webhooks, 5) Write tests and test end-to-end. After starting the session, confirm what was created.",
+      "expected_output": "Session file created at ~/.claude/sessions/payment-flow.md with goal, plan as checklist items. Index.md updated. .active file written.",
+      "assertions": [
+        {
+          "id": "session-file-exists",
+          "description": "Session file payment-flow.md was created",
+          "type": "file_exists"
+        },
+        {
+          "id": "status-active",
+          "description": "Frontmatter contains status: active",
+          "type": "file_contains",
+          "value": "status: active"
+        },
+        {
+          "id": "goal-present",
+          "description": "Goal section contains the Stripe integration goal",
+          "type": "file_contains",
+          "value": "Stripe"
+        },
+        {
+          "id": "plan-as-checkboxes",
+          "description": "Plan is formatted as Markdown checkboxes (unchecked)",
+          "type": "file_contains",
+          "value": "- [ ]"
+        },
+        {
+          "id": "index-updated",
+          "description": "index.md was created or updated with payment-flow row",
+          "type": "file_contains",
+          "value": "payment-flow"
+        },
+        {
+          "id": "active-file-written",
+          "description": ".active file contains the session name",
+          "type": "file_contains",
+          "value": "payment-flow"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "First, create two sessions: one called 'api-refactor' with goal 'Migrate REST API to GraphQL', and one called 'auth-overhaul' with goal 'Replace JWT auth with OAuth2'. Now pretend you just opened Claude fresh and want to continue working — say 'resume session' without giving a name, and show what the session picker output looks like.",
+      "expected_output": "Both sessions created. When 'resume session' is called with no name, Claude shows a numbered list of recent sessions to pick from (not just picks one automatically).",
+      "assertions": [
+        {
+          "id": "both-sessions-created",
+          "description": "Both api-refactor.md and auth-overhaul.md exist",
+          "type": "file_exists"
+        },
+        {
+          "id": "shows-list-not-auto-resume",
+          "description": "Agent presents a numbered list for the user to pick from, not auto-resuming",
+          "type": "output_contains",
+          "value": "pick"
+        },
+        {
+          "id": "list-has-multiple-entries",
+          "description": "The list output contains both session names",
+          "type": "output_contains",
+          "value": "api-refactor"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Start a session called 'db-migration' with goal 'Migrate PostgreSQL database to cloud'. Plan: 1) Audit current schema, 2) Set up RDS instance, 3) Write migration scripts, 4) Test migration on staging, 5) Run production migration. Now: step 1 (Audit current schema) is done, step 2 (Set up RDS instance) is also done, and we discovered we need to also update connection strings in the app config. Do a checkpoint to save all this progress.",
+      "expected_output": "Session file updated: steps 1 and 2 marked [x] and moved to Completed Tasks, 'update connection strings' added to Pending Tasks, daily log entry written, index.md updated with today's date.",
+      "assertions": [
+        {
+          "id": "steps-completed",
+          "description": "Steps 1 and 2 marked as [x] in plan or moved to Completed Tasks",
+          "type": "file_contains",
+          "value": "[x]"
+        },
+        {
+          "id": "connection-strings-in-pending",
+          "description": "Connection strings task appears in Pending Tasks",
+          "type": "file_contains",
+          "value": "connection string"
+        },
+        {
+          "id": "daily-log-entry",
+          "description": "Daily Log has an entry for today",
+          "type": "file_contains",
+          "value": "2026-04-21"
+        },
+        {
+          "id": "index-last-active-updated",
+          "description": "index.md shows updated last_active date for db-migration",
+          "type": "file_contains",
+          "value": "db-migration"
+        }
+      ]
+    }
+  ]
+}
